@@ -1,23 +1,25 @@
 import { TestBed } from '@angular/core/testing';
-import { App } from './app';
+import { AppComponent } from './app';
+import { provideHttpClient } from '@angular/common/http';
 
-describe('App', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [App],
-    }).compileComponents();
-  });
+describe('AppComponent form validation', () => {
+  it('name must be at least 2 chars and humpCount must be 1 or 2', () => {
+    TestBed.configureTestingModule({
+      imports: [AppComponent],
+      providers: [provideHttpClient()]
+    });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+    const fixture = TestBed.createComponent(AppComponent);
+    const component = fixture.componentInstance;
 
-  it('should render title', async () => {
-    const fixture = TestBed.createComponent(App);
-    await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, Camel-Registry-UI');
+    component.form.setValue({ name: 'A', humpCount: 3 });
+
+    expect(component.form.valid).toBeFalsy();
+    expect(component.form.get('name')!.valid).toBeFalsy();
+    expect(component.form.get('humpCount')!.valid).toBeFalsy();
+
+    component.form.setValue({ name: 'AA', humpCount: 2 });
+
+    expect(component.form.valid).toBeTruthy();
   });
 });

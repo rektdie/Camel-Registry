@@ -12,4 +12,12 @@ export class CamelService {
   getAll() {
     return this.http.get<Camel[]>(this.url);
   }
+
+  create(payload: { name: string; humpCount: number }) {
+    return this.http.post<Camel>(this.url, payload);
+  }
+
+  update(id: number, payload: { name: string; humpCount: number }) {
+    return this.http.put<Camel>(`${this.url}/${id}`, payload);
+  }
 }
