@@ -7,4 +7,8 @@
     <RootNamespace>Camel_Registry</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.2" />
+  </ItemGroup>
+
 </Project>
