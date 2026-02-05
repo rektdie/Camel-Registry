@@ -13,6 +13,14 @@ builder.Services.AddValidatorsFromAssemblyContaining<CamelValidator>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// CORS
+builder.Services.AddCors(o => {
+    o.AddDefaultPolicy(p => p
+        .WithOrigins("http://localhost:4200")
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 // Create DB
