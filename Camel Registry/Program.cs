@@ -47,6 +47,50 @@ app.MapPost("/api/camels", async (
     return Results.Created($"/api/camels/{camel.Id}", camel);
 });
 
+app.MapGet("api/camels", async (CamelDb db) =>
+{
+    return await db.Camels.ToListAsync();
+});
+
+app.MapGet("api/camels/{id}", async (int id, CamelDb db) =>
+{
+    var camel = await db.Camels.FindAsync(id);
+
+    return camel is null
+        ? Results.NotFound()
+        : Results.Ok(camel);
+});
+
+app.MapPut("api/camels/{id}", async (int id, Camel inputCamel, CamelDb db) =>
+{
+    var camel = await db.Camels.FindAsync(id);
+
+    if (camel is null)
+        return Results.NotFound();
+
+    camel.Name = inputCamel.Name;
+    camel.Color = inputCamel.Color;
+    camel.HumpCount = inputCamel.HumpCount;
+    camel.LastFed = inputCamel.LastFed;
+
+    await db.SaveChangesAsync();
+
+    return Results.Ok(camel);
+});
+
+app.MapDelete("/api/camels/{id}", async (int id, CamelDb db) =>
+{
+    var camel = await db.Camels.FindAsync(id);
+    if (camel is null)
+        return Results.NotFound();
+
+    db.Camels.Remove(camel);
+    await db.SaveChangesAsync();
+
+    return Results.NoContent();
+});
+
+
 app.Run();
 
 public partial class Program { }
