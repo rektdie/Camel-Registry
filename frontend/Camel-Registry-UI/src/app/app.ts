@@ -1,12 +1,33 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CamelService } from './services/camel.service';
+import { Camel } from './models/camel';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
-export class App {
-  protected readonly title = signal('Camel-Registry-UI');
+export class AppComponent implements OnInit {
+  camels: Camel[] = [];
+  errorMessage: string | null = null;
+
+  constructor(private api: CamelService, private cdr: ChangeDetectorRef) { }
+
+  ngOnInit(): void {
+    this.api.getAll().subscribe({
+      next: data => {
+        this.camels = data;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.errorMessage = 'Failed to load camels.';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  edit(c: Camel): void { }
 }

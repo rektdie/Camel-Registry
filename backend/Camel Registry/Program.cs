@@ -36,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
+
 // Endpoints
 app.MapPost("/api/camels", async (
     Camel camel,
