@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="Camel Registry/Camel Registry.csproj" />
+  <Project Path="CamelRegistry.Tests/CamelRegistry.Tests.csproj" />
 </Solution>

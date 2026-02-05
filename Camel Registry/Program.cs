@@ -48,3 +48,5 @@ app.MapPost("/api/camels", async (
 });
 
 app.Run();
+
+public partial class Program { }
